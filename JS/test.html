@@ -29,11 +29,13 @@ computation -->
     var term = "";
     
     function query(term) {
+        var useprefixes = "on" == $("#useprefixes").val();
         return $.map( 
             $.grep(
               prompts.split(/\s+/), 
               function(item) {
-                 return item.search(term) >= 0;
+                 
+                 return !useprefixes && item.search(term) >= 0 || item.search(term) == 0;
               }
             ), function( item ) {
               return {
@@ -49,18 +51,18 @@ computation -->
            response(query(request.term));
        } else {
            response(query(request.term));
-        $.ajax({
-          url: "data/" + request.term + ".txt",
-          dataType: "text",
-          data: {
-          },
-          success: function( data ) {
-            prompts = data;
-            term = request.term;
-            havedata = true;
-            response( query(request.term))
-          }
-        });
+            $.ajax({
+                  url: "data/" + request.term + ".txt",
+                  dataType: "text",
+                  data: {
+                  },
+                  success: function( data ) {
+                      prompts = data;
+                      term = request.term;
+                      havedata = true;
+                      response( query(request.term))
+                  }
+            });
       }
       },
       minLength: 2,
@@ -83,6 +85,11 @@ computation -->
     <div class="ui-widget">
         <label for="words">Birds: </label> <input id="words" />
     </div>
+    <select id="useprefixes">
+        <option value="on">Show words that has a term at the
+            begin</option>
+        <option value="off">Show words that contains a term</option>
+    </select>
     <div
         class="ui-widget"
         style="margin-top: 2em; font-family: Arial;"
