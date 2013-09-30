@@ -23,23 +23,45 @@ computation -->
       $( "<div>" ).text( message ).prependTo( "#log" );
       $( "#log" ).scrollTop( 0 );
     }
- 
+    
+    var prompts = "";
+    var havedata=false;
+    var term = "";
+    
+    function query(term) {
+        return $.map( 
+            $.grep(
+              prompts.split(/\s+/), 
+              function(item) {
+                 return item.search(term) >= 0;
+              }
+            ), function( item ) {
+              return {
+                label: item + " " + item.search(term) + " " + term,
+                value: item 
+              }
+            });
+    }
+
     $( "#words" ).autocomplete({
       source: function( request, response ) {
+       if (havedata && request.term.search(term) >= 0) {
+           response(query(request.term));
+       } else {
+           response(query(request.term));
         $.ajax({
           url: "data/" + request.term + ".txt",
           dataType: "text",
           data: {
           },
           success: function( data ) {
-            response( $.map( data.split(/\s+/), function( item ) {
-              return {
-                label: item,
-                value: item
-              }
-            }));
+            prompts = data;
+            term = request.term;
+            havedata = true;
+            response( query(request.term))
           }
         });
+      }
       },
       minLength: 2,
       select: function( event, ui ) {
