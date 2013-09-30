@@ -32,20 +32,21 @@ computation -->
         var useprefixes = "on" == $("#useprefixes").val();
         return $.map( 
             $.grep(
-              prompts.split(/\s+/), 
+              prompts.split(/\s+/).sort(), 
               function(item) {
                  
                  return !useprefixes && item.search(term) >= 0 || item.search(term) == 0;
               }
             ), function( item ) {
               return {
-                label: item + " " + item.search(term) + " " + term,
+                label: item.replace(term,term.toUpperCase()),
                 value: item 
               }
             });
     }
 
     $( "#words" ).autocomplete({
+      delay: 0,
       source: function( request, response ) {
        if (havedata && request.term.search(term) >= 0) {
            response(query(request.term));
