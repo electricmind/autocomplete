@@ -21,8 +21,8 @@ object GenerateAutocomplete extends App {
 
             case f :: args => parse(args) match {
                 case (p, size, ".", fp :: List()) => (p, size, f, fp :: List())
-                case (p, size, path, fp :: fs) => (p, size, f, path :: fp :: fs)
-                case (p, size, path, List())   => (p, size, path, f :: List())
+                case (p, size, path, fp :: fs)    => (p, size, f, path :: fp :: fs)
+                case (p, size, path, List())      => (p, size, path, f :: List())
             }
 
             case List() =>
@@ -49,7 +49,7 @@ object GenerateAutocomplete extends App {
                     fs.toIterator.map(x => { println(x); io.Source.fromFile(x).getLines }).flatten)
             } {
                 try {
-                    val sout = new OutputStreamWriter(new FileOutputStream(new File(path,"%s.txt".format(ngram))))
+                    val sout = new OutputStreamWriter(new FileOutputStream(new File(path, "%s.txt".format(ngram))))
                     for (word <- words) {
                         sout.write(word + "\n")
                     }

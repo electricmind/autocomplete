@@ -9,8 +9,8 @@ object NGrams {
 
     def level(x: NGram): Iterator[(NGram, NGram)] = {
         if (x.length > 1) {
-            x.sliding(x.length-1).map(_ -> x) ++
-                x.sliding(x.length-1).map(level(_)).flatten
+            x.sliding(x.length - 1).map(_ -> x) ++
+                x.sliding(x.length - 1).map(level(_)).flatten
         } else {
             Iterator()
         }

@@ -5,7 +5,6 @@ import scala.collection.immutable.MapProxy
 * Map ngrams to their probabilitities
 */
 
-
 class NGram2Probabilities(val self: Map[String, Double])
     extends MapProxy[String, Double]
 

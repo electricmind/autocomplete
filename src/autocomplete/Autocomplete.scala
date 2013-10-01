@@ -2,7 +2,7 @@ package autocomplete;
 
 import scala.collection.mutable.PriorityQueue
 /*
-*
+* An Autocomplete class that generates an autocomplete dataset.
 */
 class Autocomplete(probability: Double = 0.8, size: Int = 1000) {
     type NGram = String;
@@ -33,14 +33,10 @@ class Autocomplete(probability: Double = 0.8, size: Int = 1000) {
                 queue.headOption match {
                     case Some(ngram) if n2ws(ngram).size > size => {
                         queue.dequeue
-                        //                        println(ngram, ngs(ngram).filter(_._1.size == ngram.size + 1).map(_._1))
-//                        println("1", p, n2ps(ngram))
-                        //                        queue ++ ngs(ngram).keys
                         ngs(ngram).map(x => queue.enqueue(x))
                         ngrams(outcome, p)
                     }
                     case Some(ngram) => {
-//                        println("2", ngram, p, n2ps(ngram))
                         queue.dequeue; ngrams(ngram :: outcome, p + n2ps(ngram))
                     }
                     case None => outcome
@@ -59,13 +55,10 @@ class Autocomplete(probability: Double = 0.8, size: Int = 1000) {
     }
 
     def apply(ss: Iterator[String]): Map[NGram, Set[Word]] = {
-       
         val vocabulary = Vocabulary(ss)
         val n2ws = NGram2Words(vocabulary)
         val n2ps = NGram2Probabilities(n2ws)
         val ngs = NGrams(n2ps.keySet)
-        //        println(n2ps)
         apply(n2ps, n2ws, ngs)
-        //        n2ws
     }
 }
