@@ -24,7 +24,7 @@ The trick is how to arrange these words into the set of files. If this set was p
 | 1.0         | 12846 | 1   | 111172 | 53404 |
 
  
-How to use it
+How to use it?
 -----------------
 A demo html page uses jQuery-UI autocomplete and its code was practically copied from the jQuery-UI demo. The autocomplete.AutocompleteGenerator should compute a set of vocabularies on the base of a large text corpora:
 
