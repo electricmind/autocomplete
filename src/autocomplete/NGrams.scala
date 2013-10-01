@@ -1,4 +1,7 @@
 package autocomplete
+/*
+* A tree of possible ngrams
+*/
 
 object NGrams {
 

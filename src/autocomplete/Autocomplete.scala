@@ -1,7 +1,9 @@
 package autocomplete;
 
 import scala.collection.mutable.PriorityQueue
-
+/*
+*
+*/
 class Autocomplete(probability: Double = 0.8, size: Int = 1000) {
     type NGram = String;
     type Word = String;

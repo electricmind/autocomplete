@@ -4,7 +4,9 @@ import java.io.OutputStream
 import java.io.OutputStreamWriter
 import java.io.File
 import java.io.FileOutputStream
-
+/*
+* A console program to generate autocomplete database
+*/
 
 object GenerateAutocomplete extends App {
     override def main(args: Array[String]) = {
