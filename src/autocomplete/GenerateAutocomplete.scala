@@ -5,6 +5,7 @@ import java.io.OutputStreamWriter
 import java.io.File
 import java.io.FileOutputStream
 
+
 object GenerateAutocomplete extends App {
     override def main(args: Array[String]) = {
         def parse(args: List[String]): (Double, Int, String, List[String]) = args match {
