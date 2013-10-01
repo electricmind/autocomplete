@@ -15,11 +15,21 @@ How to use it
 -----------------
 A demo html page uses jQuery-UI autocomplete and its code was practically copied from the jQuery-UI demo. The autocomplete.AutocompleteGenerator should compute a set of vocabularies on the base of a large text corpora:
 
-   > scala autocomplete.AutocompleteGenerator <output directory> { text file }+
+   > scala autocomplete.AutocompleteGenerator [ -p <Double>] [-s <Int>] <Path> [<File> []]
 
-to exemplify:
+where options are:
 
-   > scala autocomplete.AutocompleteGenerator data/ test.txt
+   -p <Double> - probability that a substring exists in a dataset (0.8);
+
+   -s <Int> - maximum size of a wordset for a string (1000);
+
+   Path - path to place dataset;
+
+   File - file that contains a text, a few of them can be listed.
+
+sample:
+
+   > scala autocomplete.AutocompleteGenerator data test.txt
 
 A generated files should be placed into a directory /data of web server and you don't need a database any more.
 .

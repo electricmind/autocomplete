@@ -69,7 +69,7 @@ computation -->
       minLength: 2,
       select: function( event, ui ) {
         log( ui.item ?
-          "Selected: " + ui.item.value + " aka " + ui.item.id :
+          "Selected: " + ui.item.value :
           "Nothing selected, input was " + this.value );
       }
     });
@@ -84,7 +84,7 @@ computation -->
         between client and server and eliminates any need of server-side
         computation</p>
     <div class="ui-widget">
-        <label for="words">Birds: </label> <input id="words" />
+        <label for="words">Type a word: </label> <input id="words" />
     </div>
     <select id="useprefixes">
         <option value="on">Show words that has a term at the

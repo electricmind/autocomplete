@@ -5,6 +5,7 @@ import scala.collection.mutable.PriorityQueue
 class Autocomplete(probability: Double = 0.8, size: Int = 1000) {
     type NGram = String;
     type Word = String;
+    type NGrams = Map[NGram, Set[NGram]]
 
     def select(n2ps: NGram2Probabilities, ngs: NGrams): Iterable[NGram] =
         (n2ps.keys.toList.map(x => { println(x); (x, n2ps(x)) }).sortBy(-_._2).
@@ -21,7 +22,7 @@ class Autocomplete(probability: Double = 0.8, size: Int = 1000) {
             new Ordering[NGram] {
                 def compare(x: NGram, y: NGram) =
                     n2ws(x).size compare n2ws(y).size
-            }) ++ "abcdefgihjklmnopqrstuvwxyz".split("").tail.toSet
+            }) ++ "abcdefgihjklmnopqrstuvwxyz".split("").tail.filter(ngs contains _).toSet
         //            select(n2ps, ngs)
 
         def ngrams(outcome: List[NGram] = List(),
@@ -30,17 +31,14 @@ class Autocomplete(probability: Double = 0.8, size: Int = 1000) {
                 queue.headOption match {
                     case Some(ngram) if n2ws(ngram).size > size => {
                         queue.dequeue
-                        println(ngram, ngs(ngram).filter(_._1.size == ngram.size + 1).map(_._1))
-                        println("1", p, n2ps(ngram))
+                        //                        println(ngram, ngs(ngram).filter(_._1.size == ngram.size + 1).map(_._1))
+//                        println("1", p, n2ps(ngram))
                         //                        queue ++ ngs(ngram).keys
-                        ngs(ngram).
-                            keys.
-                            filter(_.length == ngram.size + 1).
-                            map(x => queue.enqueue(x))
+                        ngs(ngram).map(x => queue.enqueue(x))
                         ngrams(outcome, p)
                     }
                     case Some(ngram) => {
-                        println("2", ngram, p, n2ps(ngram))
+//                        println("2", ngram, p, n2ps(ngram))
                         queue.dequeue; ngrams(ngram :: outcome, p + n2ps(ngram))
                     }
                     case None => outcome
@@ -59,6 +57,7 @@ class Autocomplete(probability: Double = 0.8, size: Int = 1000) {
     }
 
     def apply(ss: Iterator[String]): Map[NGram, Set[Word]] = {
+       
         val vocabulary = Vocabulary(ss)
         val n2ws = NGram2Words(vocabulary)
         val n2ps = NGram2Probabilities(n2ws)
