@@ -23,6 +23,7 @@ The trick is how to arrange these words into the set of files. If this set was p
 | 0.9         | 12846 | 1   | 111172 | 53404 |
 | 1.0         | 12846 | 1   | 111172 | 53404 |
 
+A choice of probability equaled to 0.8 is obviously optimal.
  
 How to use it?
 -----------------
