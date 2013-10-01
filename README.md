@@ -12,18 +12,18 @@ The trick is how to arrange these words into the set of files. If this set was p
 
 | Probability | Amount of wordsets | Minimal size of wordset | Amount of words | Dataset volume |
 |-------------|--------------------|-------------------------|-----------------|----------------|
-| 0.1 | 105   | 717 | 61158  | 1368  |
-| 0.2 | 226   | 539 | 83248  | 2340  |
-| 0.3 | 396   | 403 | 96366  | 3540  |
-| 0.4 | 634   | 299 | 103481 | 4556  |
-| 0.5 | 958   | 220 | 106957 | 5852  |
-| 0.6 | 1408  | 153 | 108783 | 7652  |
-| 0.7 | 2124  | 94  | 109676 | 10516 |
-| 0.8 | 3652  | 40  | 110324 | 16628 |
-| 0.9 | 12846 | 1   | 111172 | 53404 |
-| 1.0 | 12846 | 1   | 111172 | 53404 |
+| 0.1         | 105   | 717 | 61158  | 1368  |
+| 0.2         | 226   | 539 | 83248  | 2340  |
+| 0.3         | 396   | 403 | 96366  | 3540  |
+| 0.4         | 634   | 299 | 103481 | 4556  |
+| 0.5         | 958   | 220 | 106957 | 5852  |
+| 0.6         | 1408  | 153 | 108783 | 7652  |
+| 0.7         | 2124  | 94  | 109676 | 10516 |
+| 0.8         | 3652  | 40  | 110324 | 16628 |
+| 0.9         | 12846 | 1   | 111172 | 53404 |
+| 1.0         | 12846 | 1   | 111172 | 53404 |
 
-
+ 
 How to use it
 -----------------
 A demo html page uses jQuery-UI autocomplete and its code was practically copied from the jQuery-UI demo. The autocomplete.AutocompleteGenerator should compute a set of vocabularies on the base of a large text corpora:
