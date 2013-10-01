@@ -46,11 +46,7 @@ sample:
 
 A generated files should be placed into a directory /data of web server and you don't need a database any more.
 
-
-
-
-
-An algorithm.
+An algorithm
 -----------------
 An algorithm is simple, I used a tree (a directed acyclic graph, to be accurate) of sequences where each parent is a substring of each of its child: "ex" is a parent of "ext" that in turn is a  parent of "exte". For substring a set word was found and a size of this set was computed. Each substring went into set if less then 1000 words contains e contained an associated substring, otherwise its child was used until the condition holds.
 
