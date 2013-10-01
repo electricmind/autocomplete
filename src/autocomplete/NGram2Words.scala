@@ -1,7 +1,9 @@
 package autocomplete
 
 import scala.collection.immutable.MapProxy
-
+/*
+* A mapping NGrams to Words
+*/
 class NGram2Words(val self: Map[String, Set[String]])
     extends MapProxy[String, Set[String]];
 
