@@ -10,18 +10,18 @@ But server can contain a precomputed set of the words: a bunch of files, each  c
 The trick is how to arrange these words into the set of files. If this set was properly optimized it contains 100000 words distributed in 4000 files, each of them contains less than 1000words (approximately 10K).
 
 
-| Probability | Amount of wordsets | Minimal size of wordset | Amount of words | Dataset volume |
-|-------------|--------------------|-------------------------|-----------------|----------------|
-| 0.1         | 105   | 717 | 61158  | 1368  |
-| 0.2         | 226   | 539 | 83248  | 2340  |
-| 0.3         | 396   | 403 | 96366  | 3540  |
-| 0.4         | 634   | 299 | 103481 | 4556  |
-| 0.5         | 958   | 220 | 106957 | 5852  |
-| 0.6         | 1408  | 153 | 108783 | 7652  |
-| 0.7         | 2124  | 94  | 109676 | 10516 |
-| 0.8         | 3652  | 40  | 110324 | 16628 |
-| 0.9         | 12846 | 1   | 111172 | 53404 |
-| 1.0         | 12846 | 1   | 111172 | 53404 |
+| Probability | Amount of wordsets | Minimal size of wordset | Words  | Dataset|
+|-------------|--------------------|-------------------------|--------|--------|
+| 0.1         | 105                | 717                     | 61158  | 1368   |
+| 0.2         | 226                | 539                     | 83248  | 2340   |
+| 0.3         | 396                | 403                     | 96366  | 3540   |
+| 0.4         | 634                | 299                     | 103481 | 4556   |
+| 0.5         | 958                | 220                     | 106957 | 5852   |
+| 0.6         | 1408               | 153                     | 108783 | 7652   |
+| 0.7         | 2124               | 94                      | 109676 | 10516  |
+| 0.8         | 3652               | 40                      | 110324 | 16628  |
+| 0.9         | 12846              | 1                       | 111172 | 53404  |
+| 1.0         | 12846              | 1                       | 111172 | 53404  |
 
 A choice of probability equaled to 0.8 is obviously optimal.
  
@@ -43,7 +43,7 @@ where options are:
 
 sample:
 
-   > scala autocomplete.AutocompleteGenerator data test.txt
+   > scala autocomplete.AutocompleteGenerator  data test.txt
 
 A generated files should be placed into a directory /data of web server and you don't need a database any more.
 
