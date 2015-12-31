@@ -1,9 +1,10 @@
-package autocomplete
+package io.github.electricmind.autocomplete
 
 import java.io.OutputStream
 import java.io.OutputStreamWriter
 import java.io.File
 import java.io.FileOutputStream
+import scala.io.Source
 /*
 * A console program to generate autocomplete database
 */
@@ -46,7 +47,7 @@ object GenerateAutocomplete extends App {
         } else {
             for {
                 (ngram, words) <- new Autocomplete(probability, size)(
-                    fs.toIterator.map(x => { println(x); io.Source.fromFile(x).getLines }).flatten)
+                    fs.toIterator.map(x => { println(x); Source.fromFile(x).getLines }).flatten)
             } {
                 try {
                     val sout = new OutputStreamWriter(new FileOutputStream(new File(path, "%s.txt".format(ngram))))
@@ -55,7 +56,7 @@ object GenerateAutocomplete extends App {
                     }
                     sout.close()
                 } catch {
-                    case x => println("Can't create file %s.txt: %s".format(ngram, x))
+                    case x: Throwable => println("Can't create file %s.txt: %s".format(ngram, x))
                 }
             }
         }

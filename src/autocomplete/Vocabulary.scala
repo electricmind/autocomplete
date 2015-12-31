@@ -1,9 +1,10 @@
-package autocomplete
+package io.github.electricmind.autocomplete
 
 import scala.collection.immutable.Set
 import ru.wordmetrix.nlp.NLP._
 import java.io.File
 import java.io.InputStream
+import scala.io.Source
 
 class Vocabulary(set: Set[String]) extends Set[String] {
     def iterator: Iterator[String] = set.iterator
@@ -28,10 +29,10 @@ object Vocabulary {
         new Vocabulary(phrases.map(_.tokenize()).flatten.toSet)
 
     def apply(fin: File): Vocabulary = {
-        apply(io.Source.fromFile(fin).getLines())
+        apply(Source.fromFile(fin).getLines())
     }
 
     def apply(sin: InputStream): Vocabulary = {
-        apply(io.Source.fromInputStream(sin).getLines())
+        apply(Source.fromInputStream(sin).getLines())
     }
 }

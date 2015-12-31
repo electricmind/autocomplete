@@ -1,4 +1,4 @@
-package autocomplete
+package io.github.electricmind.autocomplete
 /*
 * A tree of possible ngrams
 */

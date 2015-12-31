@@ -1,4 +1,4 @@
-package autocomplete;
+package io.github.electricmind.autocomplete;
 
 import scala.collection.mutable.PriorityQueue
 /*

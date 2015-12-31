@@ -1,4 +1,4 @@
-package test
+package io.github.electricmind
 
 import org.scalatest.FlatSpec
 import org.scalatest.Matchers
