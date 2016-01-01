@@ -28,22 +28,24 @@ class testAutocomplete extends FlatSpec with Matchers {
     def ngs = NGrams(n2ps.keySet)
 
     "An n2ps" should "contain a,was" in {
-        n2ps("a") should be(0.032 plusOrMinus 0.001)
-        n2ps("was") should be(0.0081 plusOrMinus 0.001)
+        n2ps("a") shouldEqual 0.032 +- 0.001
+        n2ps("was") shouldEqual 0.0081 +- 0.001
     }
 
-    "An Autocomplete" should "select words with 80% probability" in {
-        ac.select(
-            n2ps, ngs).take(6) should be(List("", "e", "n", "a", "s", "f"))
+    "An autocomplete" should "select words with 80% probability" in {
+        println(ac.select(
+            n2ps, ngs).toList)
+        ac.select(n2ps, ngs) should contain allOf ("e", "n", "a", "s", "f")
     }
 
-    "An autocomplete" should "make a map from ngrams" in {
-        ac.ngram2Words(List("a", "was"), n2ws) should be(
-            List(("a", Set("around", "a", "was", "at")), ("was", Set("was"))))
+    it should "make a map from ngrams" in {
+        ac.ngram2Words(List("a", "was"), n2ws) should contain only (
+          ("a", Set("around", "a", "was", "at")),
+          ("was", Set("was")))
     }
 
-    "An autocomplete" should "make  ngrams" in {
-        ac.ngrams(n2ps, n2ws, ngs) should be (List)
+    it should "make  ngrams" in {
+        ac.ngrams(n2ps, n2ws, ngs) should contain allOf ("ew", "mo")
     }
     
 }

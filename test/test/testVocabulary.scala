@@ -14,10 +14,9 @@ class testVocabulary extends FlatSpec with Matchers {
     def samplestream = new ByteArrayInputStream(sample.getBytes);
 
     "A vocabulary" should "be created" in {
-        Vocabulary(samplestream).toList.length should be(12)
+        Vocabulary(samplestream) should have size 12
 
-        Vocabulary(samplestream).toList.sorted.take(3) should be(
-            List("Only", "a", "at"))
+        Vocabulary(samplestream) should contain allOf ("Only", "a", "at")
     }
     
 }

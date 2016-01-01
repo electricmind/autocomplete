@@ -1,15 +1,22 @@
 name := "autocomplete"
 
-version := "1.1"
+organization := "io.github.electricmind"
 
-scalaVersion := "2.10.0"
+version := "1.2"
 
-//mainClass := Option("ru.wordmetrix.WholeLotOfPictures")
-mainClass := Some("io.github.dronegator.autocomplete.Autocomplete")
+scalaVersion := "2.11.7"
+
+mainClass := Some("io.github.dronegator.electricmind.Autocomplete")
 
 scalaSource in Compile := baseDirectory.value / "src"
 
 scalaSource in Test := baseDirectory.value / "test"
 
-libraryDependencies += "org.scalatest" %% "scalatest" % "2.0.M6" % "test"
+//sourceManaged in Compile := file("sdsd")
+
+//sourceManaged in Test := file("adasd")
+
+libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.4" % "test"
+
+javacOptions ++= Seq("-source", "1.8", "-target", "1.8", "-Xlint")
 

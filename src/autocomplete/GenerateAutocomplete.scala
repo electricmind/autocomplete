@@ -34,16 +34,16 @@ object GenerateAutocomplete extends App {
         if (fs.length == 0) {
             println(
                 """
-     scala generate.GenerateAutocomplite [options] [path] [file []]
-         where options are :
-             -s <Int> - a size of a bunch of words (1000);
-                    
-             -p <Double> - a probability of substring.
-                    
-              path - a path to output directory
-                    
-              file - text file
- """)
+                  |scala generate.GenerateAutocomplite [options] [path] [file []]
+                  |    where options are :
+                  |        -s <Int> - a size of a bunch of words (1000);
+                  |
+                  |        -p <Double> - a probability of substring.
+                  |
+                  |        path - a path to output directory
+                  |
+                  |        file - text file
+                """.stripMargin)
         } else {
             for {
                 (ngram, words) <- new Autocomplete(probability, size)(

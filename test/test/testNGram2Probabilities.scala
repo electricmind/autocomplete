@@ -22,7 +22,7 @@ class testNGram2Probabilities extends FlatSpec with Matchers {
     def take(set : Set[String],n : Int) = set.toList.sorted.take(n)
     
     "An NGrams" should "contain some items" in {
-        ngrams("a") should be(0.032 plusOrMinus 0.01)
-        ngrams("li") should be(0.0081 plusOrMinus 0.0001)
+        ngrams("a") shouldEqual 0.032 +- 0.01
+        ngrams("li") shouldEqual 0.0081 +- 0.0001
      }
 }

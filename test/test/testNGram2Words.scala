@@ -21,8 +21,8 @@ class testNGram2Words extends FlatSpec with Matchers {
     def take(set : Set[String],n : Int) = set.toList.sorted.take(n)
     
     "An NGrams" should "contain some items" in {
-        ngrams("a").size should be(4)
-        take(ngrams("a"),2) should be(List("a","around"))
-        ngrams("li") should be(Set("flies"))
+        ngrams("a").size shouldEqual 4
+        take(ngrams("a"),2) should contain allOf ("a","around")
+        ngrams("li") should contain ("flies")
      }
 }
