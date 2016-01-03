@@ -29,12 +29,12 @@ class Autocomplete(probability: Double,
   import Autocomplete._
 
   def select(n2ps: NGram2Probabilities, ngs: NGrams): Iterable[NGram] =
-    (n2ps.keys.toList.map(x => (x, n2ps(x))).sortBy(-_._2).
-      scanLeft((0d, ""))({
+    n2ps.keys.toList.map(x => (x, n2ps(x)))
+      .sortBy(-_._2)
+      .scanLeft((0d, "")){
       case ((p, _), (x, px)) => (p + px, x)
-    }).
-      takeWhile({ case (p, x) => p < probability }).
-      map(_._2)).tail
+    }.takeWhile { case (p, x) => p < probability }.
+      map(_._2).tail
 
   def apply(ss: Iterator[String]): Map[NGram, Set[Word]] = {
     val vocabulary = Vocabulary(ss).filter(isAllowed).map(normalize)
@@ -57,15 +57,17 @@ class Autocomplete(probability: Double,
     def ngrams(outcome: List[NGram] = List(), p: Double = 0.0): List[NGram] =
       if (p < probability) {
         queue.headOption match {
-          case Some(ngram) if n2ws(ngram).size > size => {
-            queue.dequeue
-            ngs(ngram).map(x => queue.enqueue(x))
+          case Some(ngram) if n2ws(ngram).size > size =>
+            queue.dequeue()
+            ngs(ngram) foreach {x =>
+              queue.enqueue(x)
+            }
             ngrams(outcome, p)
-          }
-          case Some(ngram) => {
-            queue.dequeue
+
+          case Some(ngram) =>
+            queue.dequeue()
             ngrams(ngram :: outcome, p + n2ps(ngram))
-          }
+
           case None => outcome
         }
       } else {

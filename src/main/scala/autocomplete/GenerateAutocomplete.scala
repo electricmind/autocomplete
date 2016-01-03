@@ -60,13 +60,13 @@ object GenerateAutocomplete extends App {
           (ngram, ws: Set[Word]) <- Autocomplete(probability, size, isAllowed, normalize) {
             for {
               f <- fs.toIterator
-              line <- Try {
+              line <- Try{
                 SmartFile.fromString(f).readLines()
-              } recover {
+              }.recover{
                 case th: Throwable =>
                   println(s"Can't read file $f: $th")
                   Iterator.empty
-              } get
+              }.get
             } yield line
           }
         } {
