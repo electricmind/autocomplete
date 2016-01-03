@@ -1,21 +1,19 @@
 package io.github.electricmind.autocomplete
 
-import scala.collection.immutable.MapProxy
+import _root_.io.github.electricmind.autocomplete.NGram2Words.NGram2Words
+
 /*
 * Map ngrams to their probabilitities
 */
-
-class NGram2Probabilities(val self: Map[String, Double])
-    extends MapProxy[String, Double]
-
 object NGram2Probabilities {
-    def apply(map: NGram2Words) = {
-        val count = map.map(_._2.size).sum
-        new NGram2Probabilities(
-            map.map({
-                case (ng, ws) => ng -> ws.size.toDouble / count
-            }))
+  type NGram2Probabilities = Map[String, Double]
+
+  def apply(map: NGram2Words) = {
+    val count = map.map(_._2.size).sum
+    map map {
+      case (ng, ws) => ng -> ws.size.toDouble / count
     }
+  }
 }
 
 

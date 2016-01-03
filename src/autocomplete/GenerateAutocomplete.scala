@@ -1,64 +1,81 @@
 package io.github.electricmind.autocomplete
 
-import java.io.OutputStream
-import java.io.OutputStreamWriter
-import java.io.File
-import java.io.FileOutputStream
-import scala.io.Source
+import _root_.io.github.electricmind.autocomplete.Vocabulary.Word
+import ru.wordmetrix.smartfile._
+
+import scala.util.Try
+
 /*
 * A console program to generate autocomplete database
 */
 
 object GenerateAutocomplete extends App {
-    override def main(args: Array[String]) = {
-        def parse(args: List[String]): (Double, Int, String, List[String]) = args match {
-            case "-s" :: size :: args => parse(args) match {
-                case (p, _, path, fs) => (p, size.toInt, path, fs)
-            }
+  scala.util.Random
+  case class CFG(size: Int = 1000,
+                 probability: Double = 0.8d,
+                 isAllowed: String => Boolean = (s:String) => s.forall(_.isLetterOrDigit),
+                 normalize: String => String = identity,
+                 path: String = "",
+                 fs: Iterable[String] = Iterable.empty)
 
-            case "-p" :: p :: args => parse(args) match {
-                case (_, size, path, fs) => (p.toDouble, size, path, fs)
-            }
+  def parse(args: List[String]): CFG = args match {
+    case "-s" :: size :: args => parse(args).copy(size = size.toInt)
 
-            case f :: args => parse(args) match {
-                case (p, size, ".", fp :: List()) => (p, size, f, fp :: List())
-                case (p, size, path, fp :: fs)    => (p, size, f, path :: fp :: fs)
-                case (p, size, path, List())      => (p, size, path, f :: List())
-            }
+    case "-p" :: p :: args => parse(args).copy(probability = p.toDouble)
 
-            case List() =>
-                (0.8d, 1000, ".", List())
-        }
+    case "-c" :: chars :: args =>
+      val charSet = chars.toSet
+      parse(args).copy(isAllowed = (s: String) => s.forall(charSet contains _))
 
-        val (probability, size, path, fs) = parse(args.toList)
-        if (fs.length == 0) {
-            println(
-                """
-                  |scala generate.GenerateAutocomplite [options] [path] [file []]
-                  |    where options are :
-                  |        -s <Int> - a size of a bunch of words (1000);
-                  |
-                  |        -p <Double> - a probability of substring.
-                  |
-                  |        path - a path to output directory
-                  |
-                  |        file - text file
-                """.stripMargin)
-        } else {
+    case "-l" :: args => parse(args).copy(normalize = s => s.toLowerCase)
+
+    case f :: args => parse(args).copy(path = f, fs = args)
+
+    case Nil => CFG()
+  }
+
+  override def main(args: Array[String]) = {
+
+    parse(args.toList) match {
+      case CFG(_, _, _, _, _, Nil) =>
+        println(
+          """
+            |scala generate.GenerateAutocomplite [options] [path] [file []]
+            |where:
+            |  options -
+            |    -s <Int> - a size of a bunch of words (1000);
+            |
+            |    -p <Double> - a probability of substring;
+            |        
+            |    -c <String> - allowed characters;
+            |        
+            |    -l - change all words to lower case
+            |
+            |  path - a path to output directory
+            |
+            |  file - text file
+          """.stripMargin)
+      case CFG(size, probability, isAllowed, normalize, path, fs) =>
+        for {
+          (ngram, ws: Set[Word]) <- Autocomplete(probability, size, isAllowed, normalize) {
             for {
-                (ngram, words) <- new Autocomplete(probability, size)(
-                    fs.toIterator.map(x => { println(x); Source.fromFile(x).getLines }).flatten)
-            } {
-                try {
-                    val sout = new OutputStreamWriter(new FileOutputStream(new File(path, "%s.txt".format(ngram))))
-                    for (word <- words) {
-                        sout.write(word + "\n")
-                    }
-                    sout.close()
-                } catch {
-                    case x: Throwable => println("Can't create file %s.txt: %s".format(ngram, x))
-                }
-            }
+              f <- fs.toIterator
+              line <- Try {
+                SmartFile.fromString(f).readLines()
+              } recover {
+                case th: Throwable =>
+                  println(s"Can't read file $f: $th")
+                  Iterator.empty
+              } get
+            } yield line
+          }
+        } {
+          try {
+            (SmartFile.fromString(path) / s"$ngram.txt").write(ws)
+          } catch {
+            case th: Throwable => println("Can't create file %s.txt: %s".format(ngram, th), th)
+          }
         }
     }
+  }
 }

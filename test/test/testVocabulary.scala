@@ -1,23 +1,23 @@
 package io.github.electricmind
 
-import org.scalatest.FlatSpec
-import org.scalatest.Matchers
-import autocomplete._
 import java.io.ByteArrayInputStream
+
+import io.github.electricmind.autocomplete._
+import org.scalatest.{FlatSpec, Matchers}
 
 class testVocabulary extends FlatSpec with Matchers {
 
-    val sample = """
+  val sample = """
         Only a few flies was flying around a corpse at the morning.
-        """
+               """
 
-    def samplestream = new ByteArrayInputStream(sample.getBytes);
+  def samplestream = new ByteArrayInputStream(sample.getBytes);
 
-    "A vocabulary" should "be created" in {
-        Vocabulary(samplestream) should have size 12
+  "A vocabulary" should "be created" in {
+    Vocabulary(samplestream) should have size 12
 
-        Vocabulary(samplestream) should contain allOf ("Only", "a", "at")
-    }
-    
+    Vocabulary(samplestream) should contain allOf("Only", "a", "at")
+  }
+
 }
 

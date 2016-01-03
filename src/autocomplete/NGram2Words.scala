@@ -1,17 +1,22 @@
 package io.github.electricmind.autocomplete
 
-import scala.collection.immutable.MapProxy
+import _root_.io.github.electricmind.autocomplete.Vocabulary.Vocabulary
+
 /*
 * A mapping NGrams to Words
 */
-class NGram2Words(val self: Map[String, Set[String]])
-    extends MapProxy[String, Set[String]];
 
 object NGram2Words {
-    def apply(words: Vocabulary) =
-        new NGram2Words(words.map(w => {
-            (1 to 4).map(w.sliding(_)).flatten.map((_, w))
-        }).flatten.groupBy(_._1).map({
-            case (ngram, pairs) => (ngram, pairs.map(_._2))
-        }).toMap)
+  type NGram2Words = Map[String, Set[String]]
+
+  def apply(words: Vocabulary) =
+    (for {
+      word <- words.toList
+      ngrams <- (1 to 4).map(word.sliding(_).toList)
+      ngram <- ngrams
+    } yield {
+        ngram -> word
+      }).groupBy(_._1).map({
+      case (ngram, pairs) => (ngram, pairs.map(_._2).toSet)
+    }).toMap
 }
