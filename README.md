@@ -50,5 +50,11 @@ A generated files should be placed into a directory /data of web server and you 
 An algorithm
 -----------------
 An algorithm is simple, I used a tree (a directed acyclic graph, to be accurate) of sequences where each parent is a substring of each of its child: "ex" is a parent of "ext" that in turn is a  parent of "exte". For substring a set word was found and a size of this set was computed. Each substring went into set if less then 1000 words contains e contained an associated substring, otherwise its child was used until the condition holds.
-
 
+
+History
+---------
+
+Version 1.0, 20131001, Initial release
+
+[Version 1.1](https://github.com/electricmind/autocomplete/tree/v.1.1), 20150107, Build with sbt and make a few enhancements
